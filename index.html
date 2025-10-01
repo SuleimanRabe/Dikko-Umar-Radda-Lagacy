@@ -1,0 +1,758 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dikko Umar Radda - Legacy v2.0</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .slide-in-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .slide-in-left.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .slide-in-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .slide-in-right.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .hero-gradient {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 25%, #334155 50%, #475569 75%, #64748b 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-gradient::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(1deg); }
+        }
+        
+        .nav-link {
+            position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 3px;
+            bottom: -6px;
+            left: 50%;
+            background: linear-gradient(90deg, #3b82f6, #8b5cf6);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+        
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .card-hover::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+        }
+        
+        .card-hover:hover::before {
+            left: 100%;
+        }
+        
+        .timeline-item {
+            opacity: 0;
+            transform: translateX(-30px);
+            transition: all 0.6s ease;
+        }
+        
+        .timeline-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .progress-bar {
+            width: 0%;
+            transition: width 2s ease-in-out;
+        }
+        
+        .progress-bar.animate {
+            width: var(--progress);
+        }
+        
+        .floating-element {
+            animation: floatSlow 6s ease-in-out infinite;
+        }
+        
+        @keyframes floatSlow {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .pulse-glow {
+            animation: pulseGlow 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.6); }
+        }
+        
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #3b82f6;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+        
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+        
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #3b82f6; }
+        }
+        
+        .parallax {
+            transform: translateZ(0);
+            transition: transform 0.1s ease-out;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 font-sans">
+    <!-- Navigation -->
+    <nav class="bg-white/95 backdrop-blur-md shadow-lg fixed w-full top-0 z-50 transition-all duration-300" id="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex-shrink-0">
+                    <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Dikko Umar Radda</h1>
+                </div>
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#home" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium active">Home</a>
+                        <a href="#about" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">About</a>
+                        <a href="#timeline" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Timeline</a>
+                        <a href="#achievements" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Achievements</a>
+                        <a href="#legacy" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Legacy</a>
+                        <a href="#contact" class="nav-link text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium">Contact</a>
+                    </div>
+                </div>
+                <div class="md:hidden">
+                    <button id="mobile-menu-btn" class="text-gray-700 hover:text-blue-600 focus:outline-none">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div id="mobile-menu" class="md:hidden hidden bg-white/95 backdrop-blur-md border-t">
+            <div class="px-2 pt-2 pb-3 space-y-1">
+                <a href="#home" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Home</a>
+                <a href="#about" class="block px-3 py-2 text-gray-700 hover:text-blue-600">About</a>
+                <a href="#timeline" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Timeline</a>
+                <a href="#achievements" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Achievements</a>
+                <a href="#legacy" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Legacy</a>
+                <a href="#contact" class="block px-3 py-2 text-gray-700 hover:text-blue-600">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-gradient min-h-screen flex items-center justify-center text-white pt-16 relative">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="max-w-6xl mx-auto text-center px-4 fade-in relative z-10">
+            <div class="floating-element">
+                <h1 class="text-6xl md:text-8xl font-bold mb-6 bg-gradient-to-r from-white to-blue-200 bg-clip-text text-transparent">
+                    Dikko Umar Radda
+                </h1>
+            </div>
+            <div class="typewriter text-xl md:text-3xl mb-8 opacity-90 mx-auto max-w-4xl">
+                A Legacy of Leadership, Vision, and Service
+            </div>
+            <div class="space-x-4 mt-12">
+                <button onclick="scrollToSection('about')" class="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-4 rounded-full font-semibold hover:from-blue-700 hover:to-purple-700 transition duration-300 transform hover:scale-105 pulse-glow">
+                    Discover Legacy
+                </button>
+                <button onclick="scrollToSection('timeline')" class="border-2 border-white text-white px-8 py-4 rounded-full font-semibold hover:bg-white hover:text-gray-900 transition duration-300 transform hover:scale-105">
+                    View Journey
+                </button>
+            </div>
+        </div>
+        
+        <!-- Floating particles -->
+        <div class="absolute inset-0 overflow-hidden pointer-events-none">
+            <div class="absolute top-1/4 left-1/4 w-2 h-2 bg-blue-400 rounded-full opacity-60 floating-element"></div>
+            <div class="absolute top-1/3 right-1/4 w-3 h-3 bg-purple-400 rounded-full opacity-40 floating-element" style="animation-delay: -2s;"></div>
+            <div class="absolute bottom-1/4 left-1/3 w-2 h-2 bg-white rounded-full opacity-50 floating-element" style="animation-delay: -4s;"></div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="py-24 bg-white relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-20 fade-in">
+                <h2 class="text-5xl font-bold text-gray-900 mb-6">About Dikko Umar Radda</h2>
+                <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">A distinguished leader whose vision and dedication have shaped communities and inspired generations across Nigeria and beyond.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16 items-center">
+                <div class="slide-in-left">
+                    <div class="relative">
+                        <div class="bg-gradient-to-br from-blue-100 via-purple-50 to-blue-200 rounded-3xl p-12 h-96 flex items-center justify-center transform rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <div class="text-center transform -rotate-3">
+                                <div class="w-40 h-40 bg-gradient-to-br from-blue-600 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center shadow-2xl">
+                                    <span class="text-5xl font-bold text-white">DR</span>
+                                </div>
+                                <p class="text-blue-800 font-semibold text-lg">Visionary Leader</p>
+                            </div>
+                        </div>
+                        <div class="absolute -top-4 -right-4 w-24 h-24 bg-gradient-to-br from-yellow-400 to-orange-500 rounded-full opacity-20 floating-element"></div>
+                    </div>
+                </div>
+                
+                <div class="slide-in-right">
+                    <h3 class="text-3xl font-bold text-gray-900 mb-8">A Life of Purpose & Impact</h3>
+                    <p class="text-gray-600 mb-6 leading-relaxed text-lg">
+                        Dikko Umar Radda has dedicated his life to public service, community development, and fostering positive change. His leadership philosophy centers on integrity, innovation, and inclusive growth that benefits all citizens.
+                    </p>
+                    <p class="text-gray-600 mb-8 leading-relaxed text-lg">
+                        Through decades of unwavering service, he has championed education reform, economic development, healthcare improvements, and social justice initiatives, leaving an indelible mark on every community he has served.
+                    </p>
+                    
+                    <!-- Skills/Values with progress bars -->
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">Leadership Excellence</span>
+                                <span class="text-sm text-gray-500">95%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="progress-bar bg-gradient-to-r from-blue-600 to-purple-600 h-3 rounded-full" style="--progress: 95%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">Community Impact</span>
+                                <span class="text-sm text-gray-500">98%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="progress-bar bg-gradient-to-r from-green-500 to-blue-500 h-3 rounded-full" style="--progress: 98%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="text-sm font-medium text-gray-700">Innovation & Vision</span>
+                                <span class="text-sm text-gray-500">92%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 rounded-full h-3">
+                                <div class="progress-bar bg-gradient-to-r from-purple-500 to-pink-500 h-3 rounded-full" style="--progress: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-wrap gap-3 mt-8">
+                        <span class="bg-gradient-to-r from-blue-100 to-blue-200 text-blue-800 px-6 py-3 rounded-full text-sm font-medium">Leadership</span>
+                        <span class="bg-gradient-to-r from-green-100 to-green-200 text-green-800 px-6 py-3 rounded-full text-sm font-medium">Innovation</span>
+                        <span class="bg-gradient-to-r from-purple-100 to-purple-200 text-purple-800 px-6 py-3 rounded-full text-sm font-medium">Community Service</span>
+                        <span class="bg-gradient-to-r from-orange-100 to-orange-200 text-orange-800 px-6 py-3 rounded-full text-sm font-medium">Economic Development</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section id="timeline" class="py-24 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-20 fade-in">
+                <h2 class="text-5xl font-bold text-gray-900 mb-6">Journey of Excellence</h2>
+                <p class="text-xl text-gray-600">Key milestones in a remarkable career of public service and leadership.</p>
+            </div>
+            
+            <div class="relative">
+                <!-- Timeline line -->
+                <div class="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+                
+                <!-- Timeline items -->
+                <div class="space-y-16">
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Early Career & Education</h3>
+                                <p class="text-gray-600 mb-2">Foundation years in public service and academic excellence</p>
+                                <span class="text-blue-600 font-semibold">1990-2000</span>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-blue-600 rounded-full border-4 border-white shadow-lg"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                    
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-green-600 rounded-full border-4 border-white shadow-lg"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Regional Leadership</h3>
+                                <p class="text-gray-600 mb-2">Spearheading development initiatives across multiple states</p>
+                                <span class="text-green-600 font-semibold">2000-2010</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8 text-right">
+                            <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">National Recognition</h3>
+                                <p class="text-gray-600 mb-2">Achieving prominence in national politics and policy-making</p>
+                                <span class="text-purple-600 font-semibold">2010-2020</span>
+                            </div>
+                        </div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-purple-600 rounded-full border-4 border-white shadow-lg"></div>
+                        <div class="w-1/2 pl-8"></div>
+                    </div>
+                    
+                    <div class="timeline-item flex items-center">
+                        <div class="w-1/2 pr-8"></div>
+                        <div class="absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-orange-600 rounded-full border-4 border-white shadow-lg"></div>
+                        <div class="w-1/2 pl-8">
+                            <div class="bg-white rounded-xl p-6 shadow-lg card-hover">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Transformational Leadership</h3>
+                                <p class="text-gray-600 mb-2">Leading major reforms and sustainable development programs</p>
+                                <span class="text-orange-600 font-semibold">2020-Present</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Achievements Section -->
+    <section id="achievements" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-20 fade-in">
+                <h2 class="text-5xl font-bold text-gray-900 mb-6">Key Achievements</h2>
+                <p class="text-xl text-gray-600">Transformative milestones that define a remarkable journey of service and leadership.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 shadow-lg card-hover fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center mb-6 floating-element">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Educational Revolution</h3>
+                    <p class="text-gray-600 leading-relaxed">Spearheaded comprehensive educational reforms that improved infrastructure, accessibility, and quality across 200+ schools, impacting over 500,000 students.</p>
+                    <div class="mt-4 text-blue-600 font-semibold">500K+ Students Impacted</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 shadow-lg card-hover fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl flex items-center justify-center mb-6 floating-element" style="animation-delay: -1s;">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Economic Transformation</h3>
+                    <p class="text-gray-600 leading-relaxed">Led innovative economic policies that created 100,000+ jobs, attracted ₦50B in investments, and fostered sustainable growth across multiple sectors.</p>
+                    <div class="mt-4 text-green-600 font-semibold">₦50B+ Investments Secured</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 shadow-lg card-hover fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl flex items-center justify-center mb-6 floating-element" style="animation-delay: -2s;">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Community Empowerment</h3>
+                    <p class="text-gray-600 leading-relaxed">Fostered unity and collaboration across 150+ communities, implementing grassroots programs that strengthened social cohesion and local governance.</p>
+                    <div class="mt-4 text-purple-600 font-semibold">150+ Communities United</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8 shadow-lg card-hover fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-br from-orange-600 to-orange-700 rounded-2xl flex items-center justify-center mb-6 floating-element" style="animation-delay: -3s;">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Healthcare Innovation</h3>
+                    <p class="text-gray-600 leading-relaxed">Revolutionized healthcare delivery with 50+ new facilities, telemedicine programs, and preventive care initiatives reaching rural communities.</p>
+                    <div class="mt-4 text-orange-600 font-semibold">50+ Healthcare Facilities</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-teal-50 to-teal-100 rounded-2xl p-8 shadow-lg card-hover fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-br from-teal-600 to-teal-700 rounded-2xl flex items-center justify-center mb-6 floating-element" style="animation-delay: -4s;">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Infrastructure Development</h3>
+                    <p class="text-gray-600 leading-relaxed">Delivered 1000+ km of roads, bridges, and digital infrastructure projects that connected remote areas and boosted economic activity.</p>
+                    <div class="mt-4 text-teal-600 font-semibold">1000+ KM Infrastructure</div>
+                </div>
+                
+                <div class="bg-gradient-to-br from-indigo-50 to-indigo-100 rounded-2xl p-8 shadow-lg card-hover fade-in">
+                    <div class="w-20 h-20 bg-gradient-to-br from-indigo-600 to-indigo-700 rounded-2xl flex items-center justify-center mb-6 floating-element" style="animation-delay: -5s;">
+                        <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Awards & Recognition</h3>
+                    <p class="text-gray-600 leading-relaxed">Recipient of 25+ national and international awards for outstanding leadership, innovation in governance, and commitment to public service excellence.</p>
+                    <div class="mt-4 text-indigo-600 font-semibold">25+ International Awards</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Legacy Section -->
+    <section id="legacy" class="py-24 bg-gradient-to-br from-gray-900 via-blue-900 to-purple-900 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black/20"></div>
+        <div class="max-w-6xl mx-auto px-4 relative z-10">
+            <div class="text-center mb-20 fade-in">
+                <h2 class="text-5xl font-bold mb-6">Lasting Legacy</h2>
+                <p class="text-xl text-blue-200">The enduring impact of visionary leadership and dedicated service that continues to shape the future.</p>
+            </div>
+            
+            <div class="grid lg:grid-cols-2 gap-16">
+                <div class="slide-in-left">
+                    <h3 class="text-3xl font-bold mb-8">Vision for Tomorrow</h3>
+                    <p class="text-gray-300 mb-6 leading-relaxed text-lg">
+                        Dikko Umar Radda's legacy extends far beyond his tenure in office. His vision for sustainable development, inclusive governance, and community empowerment continues to inspire leaders and citizens across Nigeria and beyond.
+                    </p>
+                    <p class="text-gray-300 mb-8 leading-relaxed text-lg">
+                        The foundations he laid continue to support progress in education, healthcare, infrastructure, and economic opportunity, creating a lasting positive impact that will benefit generations to come.
+                    </p>
+                    
+                    <div class="space-y-6">
+                        <div class="flex items-center space-x-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <div class="w-4 h-4 bg-blue-400 rounded-full floating-element"></div>
+                            <span class="text-gray-200 text-lg">Sustainable Development Framework</span>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <div class="w-4 h-4 bg-green-400 rounded-full floating-element" style="animation-delay: -1s;"></div>
+                            <span class="text-gray-200 text-lg">Educational Excellence Programs</span>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <div class="w-4 h-4 bg-purple-400 rounded-full floating-element" style="animation-delay: -2s;"></div>
+                            <span class="text-gray-200 text-lg">Healthcare Innovation Network</span>
+                        </div>
+                        <div class="flex items-center space-x-4 p-4 bg-white/10 rounded-lg backdrop-blur-sm">
+                            <div class="w-4 h-4 bg-orange-400 rounded-full floating-element" style="animation-delay: -3s;"></div>
+                            <span class="text-gray-200 text-lg">Economic Empowerment Initiatives</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="slide-in-right">
+                    <div class="bg-white/10 backdrop-blur-md rounded-3xl p-8 border border-white/20">
+                        <h4 class="text-2xl font-bold mb-8 text-center">Impact Dashboard</h4>
+                        
+                        <div class="grid grid-cols-2 gap-8 mb-8">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-blue-400 mb-2 counter" data-target="750">0</div>
+                                <div class="text-sm text-gray-300">Projects Completed</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-green-400 mb-2 counter" data-target="2.5">0</div>
+                                <div class="text-sm text-gray-300">Million Lives Impacted</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-purple-400 mb-2 counter" data-target="30">0</div>
+                                <div class="text-sm text-gray-300">Years of Service</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-orange-400 mb-2 counter" data-target="200">0</div>
+                                <div class="text-sm text-gray-300">Communities Transformed</div>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white/10 rounded-2xl p-6 border border-white/10">
+                            <blockquote class="text-gray-200 italic text-center text-lg leading-relaxed">
+                                "True leadership is not about the position you hold, but the positive transformation you create in the lives of others and the sustainable legacy you leave for future generations."
+                            </blockquote>
+                            <div class="text-center mt-6">
+                                <div class="text-blue-300 font-semibold">- Dikko Umar Radda</div>
+                                <div class="text-gray-400 text-sm">Visionary Leader & Public Servant</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Background elements -->
+        <div class="absolute top-10 right-10 w-32 h-32 bg-blue-500/10 rounded-full floating-element"></div>
+        <div class="absolute bottom-20 left-20 w-24 h-24 bg-purple-500/10 rounded-full floating-element" style="animation-delay: -3s;"></div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-24 bg-white">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="text-center mb-20 fade-in">
+                <h2 class="text-5xl font-bold text-gray-900 mb-6">Connect & Learn More</h2>
+                <p class="text-xl text-gray-600">Discover more about the legacy and ongoing impact of visionary leadership.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8 mb-16">
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-2xl p-8 text-center card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl mx-auto mb-6 flex items-center justify-center floating-element">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Email</h3>
+                    <p class="text-gray-600 text-sm">info@dikkoradda.org</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-2xl p-8 text-center card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-green-600 to-green-700 rounded-2xl mx-auto mb-6 flex items-center justify-center floating-element" style="animation-delay: -1s;">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Phone</h3>
+                    <p class="text-gray-600 text-sm">+234 (0) 123 456 7890</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-purple-50 to-purple-100 rounded-2xl p-8 text-center card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-700 rounded-2xl mx-auto mb-6 flex items-center justify-center floating-element" style="animation-delay: -2s;">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Office</h3>
+                    <p class="text-gray-600 text-sm">Katsina State, Nigeria</p>
+                </div>
+                
+                <div class="bg-gradient-to-br from-orange-50 to-orange-100 rounded-2xl p-8 text-center card-hover fade-in">
+                    <div class="w-16 h-16 bg-gradient-to-br from-orange-600 to-orange-700 rounded-2xl mx-auto mb-6 flex items-center justify-center floating-element" style="animation-delay: -3s;">
+                        <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9"></path>
+                        </svg>
+                    </div>
+                    <h3 class="font-bold text-gray-900 mb-2">Website</h3>
+                    <p class="text-gray-600 text-sm">www.dikkoradda.org</p>
+                </div>
+            </div>
+            
+            <div class="text-center border-t border-gray-200 pt-12 fade-in">
+                <p class="text-gray-500 mb-4">&copy; 2024 Dikko Umar Radda Legacy Foundation. All rights reserved.</p>
+                <p class="text-gray-400 text-sm">Continuing the legacy of visionary leadership and public service excellence.</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Enhanced smooth scrolling with offset
+        function scrollToSection(sectionId) {
+            const element = document.getElementById(sectionId);
+            const navHeight = 80;
+            const elementPosition = element.offsetTop - navHeight;
+            
+            window.scrollTo({
+                top: elementPosition,
+                behavior: 'smooth'
+            });
+        }
+
+        // Enhanced navigation and animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuBtn.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+
+            // Navigation link handling
+            const navLinks = document.querySelectorAll('.nav-link, #mobile-menu a');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const targetId = this.getAttribute('href').substring(1);
+                    scrollToSection(targetId);
+                    
+                    mobileMenu.classList.add('hidden');
+                    
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Enhanced scroll spy
+            window.addEventListener('scroll', function() {
+                const sections = ['home', 'about', 'timeline', 'achievements', 'legacy', 'contact'];
+                const navHeight = 80;
+                
+                // Navbar background change
+                const navbar = document.getElementById('navbar');
+                if (window.scrollY > 100) {
+                    navbar.classList.add('bg-white/98');
+                    navbar.classList.remove('bg-white/95');
+                } else {
+                    navbar.classList.add('bg-white/95');
+                    navbar.classList.remove('bg-white/98');
+                }
+                
+                sections.forEach(sectionId => {
+                    const section = document.getElementById(sectionId);
+                    const sectionTop = section.offsetTop - navHeight - 100;
+                    const sectionBottom = sectionTop + section.offsetHeight;
+                    
+                    if (window.scrollY >= sectionTop && window.scrollY < sectionBottom) {
+                        navLinks.forEach(link => {
+                            link.classList.remove('active');
+                            if (link.getAttribute('href') === `#${sectionId}`) {
+                                link.classList.add('active');
+                            }
+                        });
+                    }
+                });
+            });
+
+            // Enhanced intersection observer for animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver(function(entries) {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                        
+                        // Animate progress bars
+                        if (entry.target.querySelector('.progress-bar')) {
+                            const progressBars = entry.target.querySelectorAll('.progress-bar');
+                            progressBars.forEach(bar => {
+                                setTimeout(() => {
+                                    bar.classList.add('animate');
+                                }, 300);
+                            });
+                        }
+                        
+                        // Animate counters
+                        if (entry.target.querySelector('.counter')) {
+                            const counters = entry.target.querySelectorAll('.counter');
+                            counters.forEach(counter => {
+                                animateCounter(counter);
+                            });
+                        }
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all animated elements
+            document.querySelectorAll('.fade-in, .slide-in-left, .slide-in-right, .timeline-item').forEach(el => {
+                observer.observe(el);
+            });
+
+            // Counter animation function
+            function animateCounter(element) {
+                const target = parseFloat(element.getAttribute('data-target'));
+                const duration = 2000;
+                const step = target / (duration / 16);
+                let current = 0;
+                
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    
+                    if (target >= 1000000) {
+                        element.textContent = (current / 1000000).toFixed(1) + 'M+';
+                    } else if (target >= 1000) {
+                        element.textContent = Math.floor(current).toLocaleString() + '+';
+                    } else {
+                        element.textContent = Math.floor(current) + '+';
+                    }
+                }, 16);
+            }
+
+            // Parallax effect for hero section
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.parallax');
+                
+                parallaxElements.forEach(element => {
+                    const speed = 0.5;
+                    element.style.transform = `translateY(${scrolled * speed}px)`;
+                });
+            });
+
+            // Add typewriter effect after page load
+            setTimeout(() => {
+                const typewriterElement = document.querySelector('.typewriter');
+                if (typewriterElement) {
+                    typewriterElement.style.animation = 'typing 3s steps(40, end), blink-caret 0.75s step-end infinite';
+                }
+            }, 1000);
+        });
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'987fc69b716426f7',t:'MTc1OTM2MTcxOS4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
